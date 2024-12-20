@@ -1,5 +1,16 @@
 import requests
-from sqlalchemy import null
+
+
+def login_with_username(username, password):
+    url = "https://gitlab.com/oauth/token"
+    payload = f'grant_type=password&username={username}&password={password}'
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    response = requests.post(url, headers=headers, data=payload)
+    response.raise_for_status()
+    results = response.json()
+    return results
 
 
 def get_all_projects(header, page=1, per_page=20):
